@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Twitch</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<body>
+  <div id="app">
+    <transition name="preload">
+      <div class="preloader" v-if="preloading">
+        <div class="preloading"></div>
+        <p>Loading content...</p>
+      </div>
+    </transition>
+    <header id="nav"><a class="logo" href="#/" @click="loadContext( 'populars', 15 )" alt="See what's popular on FCC Twitch!" title="See what's popular on FCC Twitch!">
+        <figure>
+          <svg class="logoSVG" width="50px" height="32px" version="1.1" viewBox="0 0 16.67 8.47" x="0px" y="0px">
+            <g transform="matrix(0.03102256,0,0,0.03102256,0.02541952,0.01665777)">
+              <path clip-rule="evenodd" d="M 27.764202,250.25 1.1566475,230.5 1.0783237,138.27782 1,46.055636 25.745555,23.527818 50.49111,1 h 69.7284 69.7284 L 190.22395,15.972359 190.5,30.944717 207,15.98284 223.5,1.0209628 293.22327,1.0104814 362.94653,1 363.22327,15.518524 363.5,30.037049 379.5,15.529287 395.5,1.0215247 464.75,1.0107623 534,1 V 115.80378 230.60756 L 511.79067,250.30378 489.58134,270 h -52.8142 -52.81419 L 366.22647,254.11568 348.5,238.23135 348.22523,254.11568 347.95046,270 H 274.00899 200.06752 L 172.78376,245.63369 145.5,221.26738 145.23253,245.63369 144.96506,270 H 99.668408 54.371756 Z M 89,177 v -39 h 43 43 V 116 94 H 132 89 V 82.5 71 h 43 43 V 43.5 16 H 120.24555 65.49111 L 40.745555,38.527818 16,61.055636 V 138.52782 216 H 52.5 89 Z m 259,6 V 150 H 305 262 V 116 82 h 43 43 V 49 16 H 293.24555 238.49111 L 213.74555,38.527818 189,61.055636 V 116 170.94436 L 213.74555,193.47218 238.49111,216 H 293.24555 348 Z m 172,0 V 150 H 477 434 V 116 82 h 43 43 V 49 16 H 465.24555 410.49111 L 385.74555,38.527818 361,61.055636 V 116 170.94436 L 385.74555,193.47218 410.49111,216 H 465.24555 520 Z"></path>
+            </g>
+          </svg>
+        </figure></a><a v-if="localStorage" href="#/" @click="loadContext( 'following' )" alt="See the user you follow on FCC Twitch" title="See the user you follow on FCC Twitch">Following</a><a href="#/" @click="loadContext( 'user', 'Lucifer 2K' )" alt="See if Lucifer 2K is online" title="See if Lucifer 2K is online">Lucifer 2K</a>
+      <input id="search" placeholder="Search a username" alt="Search for a user on Twitch.tv" title="Search for a user on Twitch.tv" type="search" v-model="searchUser" @keyup.enter="loadContext( 'user', searchUser )"/><a class="about" href="https://twitter.com/sehrawat279" target="_blank" alt="about Lucifer 2K" title="about Lucifer 2K">About</a>
+    </header>
+    <main id="main-content">
+      <section class="e404" v-if="context=='404'">
+        <h1 id="title" v-html="error404.title"></h1>
+        <h2 id="desc" v-html="error404.desc"></h2><br/>
+        <h2 id="desc" v-html="error404.notes"></h2>
+      </section>
+      <section class="streams" v-if="context=='populars'">
+        <div class="heading">
+          <h1>Top 15 Channels</h1>
+          <h2>What's hot right now!</h2>
+        </div>
+        <popular :popular="popular" :local-storage="localStorage" v-for="stream in popular" :stream="stream" :key="stream.user_id" @follow="onFollow"></popular>
+      </section>
+      <section class="following" v-if="context=='following'">
+        <div class="heading">
+          <h1>Your fav users!</h1>
+          <h2>The ones you chosen to be here.</h2>
+        </div>
+        <following :users-followed="followList" v-for="user in followUsers" :user="user" :key="user.user_id" :local-storage="localStorage" @follow="onFollow"></following>
+      </section>
+      <section class="user-layout" v-if="context=='user'">
+        <div class="heading">
+          <H1>Here you are!</H1>
+          <H2>The channel you were looking for!</H2>
+        </div>
+        <user-profile :user="user" :local-storage="localStorage" @follow="onFollow"></user-profile>
+      </section>
+    </main>
+  </div>
+  <footer>coded by <a href="https://twitter.com/sehrawat279" target="_blank" alt="about Lucifer 2K" title="about Lucifer 2K">Lucifer 2K</a></footer>
+  <template id="popular-template">
+    <article class="stream"><a :href="stream.userURL" target="_blank" alt="Click on the image to open the stream" title="Click on the image to open the stream"><img :src="stream.image" alt="Screenshot of the stream"/></a>
+      <h2><a :href="stream.userURL" target="_blank" alt="Click to open the stream" title="Click to open the stream">{{ stream.name }}</a></h2><small>{{ stream.viewers }} viewers</small><a v-if="localStorage" @click="$emit('follow', stream.user_id )" href="#/" id="stream.user" :class="following" :alt="'Follow ' + stream.user + ' on FCC Twitch'" :title="'Follow ' + stream.user + ' on FCC Twitch'">{{ following }}</a>
+      <p class="stream-desc">{{ stream.title }}</p>
+    </article>
+  </template>
+  <template id="following-template">
+    <article class="user-info"><a :href="user.url" target="_blank" alt="Click to open the user on Twitch" title="Click to open the user on Twitch"><img class="pic" :src="user.avatar"/></a>
+      <h2 class="name"><a :href="user.url" target="_blank" alt="Click to open the user on Twitch" title="Click to open the user on Twitch">{{user.name}}</a></h2><a class="live" v-if="user.live" :href="user.live" target="_blank" alt="Click to open the stream on Twitch" title="Click to open the stream on Twitch">LIVE RIGHT NOW!</a>
+      <h4 id="offline" v-else="v-else">OFFLINE</h4><a v-if="localStorage" @click="$emit('follow', user.id )" href="#/" :class="following" :alt="'Follow ' + user.name + ' on FCC Twitch'" :title="'Follow ' + user.name + ' on FCC Twitch'">{{ following }}</a>
+      <p class="desc">{{user.desc?user.desc:'No channel description.'}}</p>
+    </article>
+  </template>
+  <template id="user-template">
+    <article class="user-info"><a :href="user.url" target="_blank" alt="Click to open the user on Twitch" title="Click to open the user on Twitch"><img class="pic" :src="user.avatar"/></a>
+      <h2 class="name"><a :href="user.url" target="_blank" alt="Click to open the user on Twitch" title="Click to open the user on Twitch">{{user.name}}</a></h2><a class="live" v-if="user.live" :href="user.live" target="_blank" alt="Click to open the stream on Twitch" title="Click to open the stream on Twitch">LIVE RIGHT NOW!</a>
+      <h4 id="offline" v-else="v-else">OFFLINE</h4><a v-if="localStorage" @click="$emit('follow', user.id )" href="#/" :class="following" :alt="'Follow ' + user.user + ' on FCC Twitch'" :title="'Follow ' + user.user + ' on FCC Twitch'">{{ following }}</a>
+      <p class="desc">{{user.desc?user.desc:'No channel description.'}}</p>
+    </article>
+  </template>
+</body>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
