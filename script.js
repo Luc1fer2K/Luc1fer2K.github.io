@@ -248,7 +248,7 @@ const Projects = props => {
       img: 'images/maze.png',
       tech: "js css",
       link: "maze/index.html",
-      repo: "https://github.com/Luc1fer2K/Luc1fer2K.github.io" },
+      repo: "#" },
 
     React.createElement("small", null, "JS + jQuery, CSS + Bootstrap."),
     React.createElement("p", null, "The first game I ever built when I started on Web Development.")),
@@ -263,7 +263,7 @@ const Projects = props => {
       img: 'images/quote.png',
       tech: "js vue css",
       link: "quote/index.html",
-      repo: "https://github.com/Luc1fer2K/Luc1fer2K.github.io" },
+      repo: "#" },
 
     React.createElement("small", null, "Built using VueJS, Axios and CSS + Bootstrap."),
     React.createElement("p", null, "A random quoting app which displays time and date as well")),
@@ -273,7 +273,7 @@ const Projects = props => {
       img: 'images/Calculator.jpg',
       tech: "js react css",
       link: "calculator/index.html",
-      repo: "https://github.com/Luc1fer2K/Luc1fer2K.github.io" },
+      repo: "#" },
 
     React.createElement("small", null, "Built using React and CSS."),
     React.createElement("p", null, "A cool looking calculator for you to use.")),
@@ -285,7 +285,7 @@ const Projects = props => {
       img: 'images/TicTacToe.jpg',
       tech: "js react css",
       link: "tic_tac_toe/index.html",
-      repo: "https://github.com/Luc1fer2K/Luc1fer2K.github.io" },
+      repo: "#" },
 
     React.createElement("small", null, "Built using React, CSS and SVG."),
     React.createElement("p", null, "A TicTacToe game with a basic AI algorithm.")),
@@ -298,7 +298,7 @@ const Projects = props => {
       img: 'images/Twitch.jpg',
       tech: "js vue sass",
       link: "twitch/index.html",
-      repo: "https://github.com/Luc1fer2K/Luc1fer2K.github.io"},
+      repo: "#"},
 
 
     React.createElement("small", null, "Built using VueJS, Axios and Scss."),
@@ -312,7 +312,7 @@ const Projects = props => {
       img: 'images/weather.png',
       tech: "js vue css",
       link: "weather_app/index.html",
-      repo: "https://github.com/Luc1fer2K/Luc1fer2K.github.io" },
+      repo: "#" },
 
 
     React.createElement("small", null, "Built using VueJS, Axios and CSS."),
